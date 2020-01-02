@@ -267,7 +267,12 @@ class Job:
                 self.interval_additional += self.interval.get('min')
         else:
             self.interval_additional = 0
-        result = response.json().get('data.result')
+        result = response.json()
+        #QueryLog.add_quick_log("result:" + str(result))
+        if result and result['data'] and result['data']['result']:
+            result = result.get('data').get('result')
+        else:
+            result = None
         return result if result else False
 
     def is_has_ticket(self, ticket_info):
